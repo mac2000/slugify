@@ -96,9 +96,10 @@ class SlugifyTest extends \PHPUnit_Framework_TestCase
      */
     public function addRulesetGetRulesets()
     {
+        $relesetsCount = count($this->slugify->getRulesets());
         $this->slugify->addRuleset('foo', array('k' => 'key'));
 
-        $this->assertCount(2, $this->slugify->getRulesets());
+        $this->assertCount($relesetsCount + 1, $this->slugify->getRulesets());
     }
 
     /**
@@ -137,6 +138,16 @@ class SlugifyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->slugify->slugify($actual));
     }
 
+    /**
+     * @test
+     * @covers Cocur\Slugify\Slugify::__construct()
+     */
+    public function constructWithRuleSet()
+    {
+        $this->slugify = new Slugify(Slugify::LOWERCASE_NUMBERS_DASHES, array('de'));
+        $this->assertEquals('ae-ae-oe-oe-ue-ue-ss', $this->slugify->slugify('Ä ä Ö ö Ü ü ß'));
+    }
+
     public function provider()
     {
         return array(
@@ -149,7 +160,6 @@ class SlugifyTest extends \PHPUnit_Framework_TestCase
             array('H+e#l1l--o/W§o r.l:d)', 'h-e-l1l-o-w-o-r-l-d'),
             array(': World', 'world'),
             array('Hello World!', 'hello-world'),
-            array('Ä ä Ö ö Ü ü ß', 'ae-ae-oe-oe-ue-ue-ss'),
             array('Á À á à É È é è Ó Ò ó ò Ñ ñ Ú Ù ú ù', 'a-a-a-a-e-e-e-e-o-o-o-o-n-n-u-u-u-u'),
             array('Â â Ê ê Ô ô Û û', 'a-a-e-e-o-o-u-u'),
             array('Â â Ê ê Ô ô Û 1', 'a-a-e-e-o-o-u-1'),

@@ -259,13 +259,13 @@ class Slugify implements SlugifyInterface
         'ж' => 'zh',
 
         // German characters
-        'Ä' => 'AE',
-        'Ö' => 'OE',
-        'Ü' => 'UE',
-        'ß' => 'ss',
-        'ä' => 'ae',
-        'ö' => 'oe',
-        'ü' => 'ue',
+        'Ä' => 'A',
+        'Ö' => 'O',
+        'Ü' => 'U',
+        'ß' => 's',
+        'ä' => 'a',
+        'ö' => 'o',
+        'ü' => 'u',
 
         // Turkish characters
         'Ç' => 'C',
@@ -670,6 +670,15 @@ class Slugify implements SlugifyInterface
             'Ĵ' => 'JX',
             'Ŝ' => 'SX',
             'Ŭ' => 'UX'
+        ),
+        'de' => array(
+            'Ä' => 'AE',
+            'Ö' => 'OE',
+            'Ü' => 'UE',
+            'ß' => 'ss',
+            'ä' => 'ae',
+            'ö' => 'oe',
+            'ü' => 'ue',
         )
     );
 
@@ -679,10 +688,15 @@ class Slugify implements SlugifyInterface
     /**
      *
      * @param string $regExp
+     * @param array  $ruleSets rule set keys to apply
      */
-    public function __construct($regExp = self::LOWERCASE_NUMBERS_DASHES)
+    public function __construct($regExp = self::LOWERCASE_NUMBERS_DASHES, array $ruleSets = array())
     {
         $this->regExp = $regExp;
+
+        foreach($ruleSets as $name) {
+            $this->activateRuleset($name);
+        }
     }
 
     /**
