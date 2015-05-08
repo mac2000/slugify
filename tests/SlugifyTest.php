@@ -13,6 +13,8 @@ namespace Cocur\Slugify\Tests;
 
 use Cocur\Slugify\Slugify;
 
+function locale_get_default() { return 'de_DE'; }
+
 /**
  * SlugifyTest
  *
